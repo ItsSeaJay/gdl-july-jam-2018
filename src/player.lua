@@ -1,11 +1,14 @@
 player = {}
-player.image = love.graphics.newImage("img/ghost.png")
-player.x = (love.graphics.getWidth() / 2) - (player.image:getWidth() / 2)
-player.y = love.graphics.getHeight() / 2
-player.speed = 64
-player.velocity = {}
-player.velocity.x = 0
-player.velocity.y = 0
+
+function player:load()
+	player.image = love.graphics.newImage("img/ghost.png")
+	player.x = love.graphics.getWidth() / 2
+	player.y = love.graphics.getHeight() / 2
+	player.speed = 64
+	player.velocity = {}
+	player.velocity.x = 0
+	player.velocity.y = 0
+end
 
 function player:update(deltaTime)
 	local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
@@ -40,4 +43,5 @@ function player:draw()
 	love.graphics.draw(player.image, player.x, player.y)
 end
 
+player:load()
 return player
