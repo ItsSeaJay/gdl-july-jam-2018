@@ -7,5 +7,5 @@ function love.update(deltaTime)
 end
 
 function love.draw()
-	love.graphics.draw(player.image, player.x, player.y)
+	player:draw()
 end
