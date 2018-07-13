@@ -16,7 +16,8 @@ function love.draw()
 	-- NOTE: Graphics in LÖVE are sorted front to back
 	-- Draw an example grid of tiles
 	-- TODO: find out what l and t mean
-	camera:draw(function (l, t, width, height)
+	camera:draw(function (l, t, w, h)
+		-- Everything in this function is drawn relative to the camera
 		local tileSize = 21
 
 		for x = 1, 32 do
