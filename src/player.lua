@@ -31,6 +31,7 @@ function player:update(deltaTime)
 		player.velocity.x = 0
 	end
 
+	-- Apply the velocity to the player's position
 	player.x = player.x + player.velocity.x * deltaTime
 	player.y = player.y + player.velocity.y * deltaTime
 end
