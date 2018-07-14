@@ -1,2 +1,3 @@
 - Platformer Art Deluxe (Pixel Redux) by Kenney Vleugels (www.kenney.nl)
 - gamera by kikito
+- classic by rxi
