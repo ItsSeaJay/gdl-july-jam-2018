@@ -1,17 +1,22 @@
 Object = require("classic")
 Player = Object:extend()
 
-function Player:new()
+function Player:new(x, y)
 	self.image = love.graphics.newImage("img/ghost.png")
-	self.x = love.graphics.getWidth() / 2
-	self.y = love.graphics.getHeight() / 2
+	self.x = x
+	self.y = y
 	self.speed = 64
 	self.velocity = {}
 	self.velocity.x = 0
 	self.velocity.y = 0
+	self.state = normalState
 end
 
-function Player:update(deltaTime)
+testState = function(self, deltaTime)
+	
+end
+
+normalState = function(self, deltaTime)
 	local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
 	local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
 	local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
@@ -19,29 +24,31 @@ function Player:update(deltaTime)
 
 	-- Horizontal
 	if up then
-		player.velocity.y = -player.speed
+		self.velocity.y = -self.speed
 	elseif down then
-		player.velocity.y = player.speed
+		self.velocity.y = self.speed
 	else
-		player.velocity.y = 0
+		self.velocity.y = 0
 	end
 
 	-- Vertical
 	if left then
-		player.velocity.x = -player.speed
+		self.velocity.x = -self.speed
 	elseif right then
-		player.velocity.x = player.speed
+		self.velocity.x = self.speed
 	else
-		player.velocity.x = 0
+		self.velocity.x = 0
 	end
 
-	-- Apply the velocity to the player's position
-	player.x = player.x + player.velocity.x * deltaTime
-	player.y = player.y + player.velocity.y * deltaTime
+	-- Apply the velocity to the self's position
+	self.x = self.x + self.velocity.x * deltaTime
+	self.y = self.y + self.velocity.y * deltaTime
+end
+
+function Player:update(deltaTime)
+	self.state(self, deltaTime)
 end
 
 function Player:draw()
-	love.graphics.draw(player.image, player.x, player.y)
+	love.graphics.draw(self.image, self.x, self.y)
 end
-
-return player

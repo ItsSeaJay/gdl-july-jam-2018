@@ -2,7 +2,7 @@ require("classic")
 require("player")
 
 function love.load()
-	player = Player()
+	player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
 	tile = love.graphics.newImage("img/tile.png")
 	gamera = require("gamera")
 	camera = gamera.new(0, 0, 2000, 2000)
