@@ -5,7 +5,11 @@ Player = Object:extend()
 
 function Player:new(x, y)
 	self.images = {}
-	self.images.normal = love.graphics.newImage("img/ghostDown.png")
+	self.images.normal = love.graphics.newImage("img/ghostNormal.png")
+	self.images.up = love.graphics.newImage("img/ghostUp.png")
+	self.images.down = love.graphics.newImage("img/ghostDown.png")
+	self.images.left = love.graphics.newImage("img/ghostLeft.png")
+	self.images.right = love.graphics.newImage("img/ghostRight.png")
 	self.image = self.images.normal
 	self.x = x
 	self.y = y
@@ -25,19 +29,20 @@ function Player:update(deltaTime)
 	-- Horizontal
 	if up then
 		self.velocity.y = -self.speed
+		self.image = self.images.up
 	elseif down then
 		self.velocity.y = self.speed
-	else
-		self.velocity.y = 0
-	end
-
-	-- Vertical
-	if left then
+		self.image = self.images.down
+	elseif left then
 		self.velocity.x = -self.speed
+		self.image = self.images.left
 	elseif right then
 		self.velocity.x = self.speed
+		self.image = self.images.right
 	else
 		self.velocity.x = 0
+		self.velocity.y = 0
+		self.image = self.images.normal
 	end
 
 	-- Apply the velocity to the self's position
