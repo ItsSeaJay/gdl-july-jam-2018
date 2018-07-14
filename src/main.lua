@@ -1,20 +1,14 @@
 require("classic")
 require("Player")
-require("Posessable")
 
 function love.load()
-	posessables = {}
-	posessables[1] = Possessable(64, 64)
 	player = Player(
 		love.graphics.getWidth() / 2, -- X
-		love.graphics.getHeight() / 2, -- Y
-		posessables
+		love.graphics.getHeight() / 2 -- Y
 	)
 	tile = love.graphics.newImage("img/tile.png")
 	gamera = require("gamera")
 	camera = gamera.new(0, 0, 2000, 2000)
-
-	love.keyboard.justpressed = {}
 end
 
 function love.update(deltaTime)
@@ -37,7 +31,6 @@ function love.draw()
 			end
 		end
 
-		lever:draw()
 		player:draw()
 	end)
 end
