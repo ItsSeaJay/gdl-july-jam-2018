@@ -17,6 +17,7 @@ function Player:new(x, y)
 	self.velocity = {}
 	self.velocity.x = 0
 	self.velocity.y = 0
+	self.waveHeight = 16
 end
 
 -- Game loop
@@ -51,5 +52,7 @@ function Player:update(deltaTime)
 end
 
 function Player:draw()
-	love.graphics.draw(self.image, self.x, self.y)
+	local wave = math.sin(love.timer.getTime()) * self.waveHeight
+
+	love.graphics.draw(self.image, self.x, self.y + wave)
 end
