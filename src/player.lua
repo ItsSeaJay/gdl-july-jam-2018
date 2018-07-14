@@ -5,7 +5,7 @@ function Player:new(x, y)
 	self.image = love.graphics.newImage("img/ghost.png")
 	self.x = x
 	self.y = y
-	self.speed = 64
+	self.speed = 128
 	self.velocity = {}
 	self.velocity.x = 0
 	self.velocity.y = 0
