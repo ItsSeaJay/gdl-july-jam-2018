@@ -22,33 +22,47 @@ end
 
 -- Game loop
 function Player:update(deltaTime)
+	-- Input
 	local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
 	local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
 	local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
 	local right = love.keyboard.isDown("d") or love.keyboard.isDown("right")
 
-	-- Horizontal
+	-- Movement
+	-- Vertical
 	if up then
 		self.velocity.y = -self.speed
-		self.image = self.images.up
 	elseif down then
 		self.velocity.y = self.speed
-		self.image = self.images.down
-	elseif left then
-		self.velocity.x = -self.speed
-		self.image = self.images.left
-	elseif right then
-		self.velocity.x = self.speed
-		self.image = self.images.right
 	else
-		self.velocity.x = 0
 		self.velocity.y = 0
-		self.image = self.images.normal
 	end
 
-	-- Apply the velocity to the self's position
+	-- Horizontal
+	if left then
+		self.velocity.x = -self.speed
+	elseif right then
+		self.velocity.x = self.speed
+	else
+		self.velocity.x = 0
+	end
+
+	-- Apply the velocity to the player's position
 	self.x = self.x + self.velocity.x * deltaTime
 	self.y = self.y + self.velocity.y * deltaTime
+
+	-- Animation
+	if up then
+		self.image = self.images.up
+	elseif down then
+		self.image = self.images.down
+	elseif left then
+		self.image = self.images.left
+	elseif right then
+		self.image = self.images.right
+	else
+		self.image = self.images.normal
+	end
 end
 
 function Player:draw()
