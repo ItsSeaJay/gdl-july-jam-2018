@@ -1,5 +1,8 @@
+require("classic")
+require("player")
+
 function love.load()
-	player = require("player")
+	player = Player()
 	tile = love.graphics.newImage("img/tile.png")
 	gamera = require("gamera")
 	camera = gamera.new(0, 0, 2000, 2000)

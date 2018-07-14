@@ -1,16 +1,17 @@
-player = {}
+Object = require("classic")
+Player = Object:extend()
 
-function player:load()
-	player.image = love.graphics.newImage("img/ghost.png")
-	player.x = love.graphics.getWidth() / 2
-	player.y = love.graphics.getHeight() / 2
-	player.speed = 64
-	player.velocity = {}
-	player.velocity.x = 0
-	player.velocity.y = 0
+function Player:new()
+	self.image = love.graphics.newImage("img/ghost.png")
+	self.x = love.graphics.getWidth() / 2
+	self.y = love.graphics.getHeight() / 2
+	self.speed = 64
+	self.velocity = {}
+	self.velocity.x = 0
+	self.velocity.y = 0
 end
 
-function player:update(deltaTime)
+function Player:update(deltaTime)
 	local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
 	local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
 	local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
@@ -39,9 +40,8 @@ function player:update(deltaTime)
 	player.y = player.y + player.velocity.y * deltaTime
 end
 
-function player:draw()
+function Player:draw()
 	love.graphics.draw(player.image, player.x, player.y)
 end
 
-player:load()
 return player
