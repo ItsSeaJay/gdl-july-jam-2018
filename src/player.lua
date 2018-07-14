@@ -1,3 +1,5 @@
+require("justpressed")
+
 Object = require("classic")
 Player = Object:extend()
 

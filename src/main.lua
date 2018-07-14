@@ -13,6 +13,8 @@ function love.load()
 	tile = love.graphics.newImage("img/tile.png")
 	gamera = require("gamera")
 	camera = gamera.new(0, 0, 2000, 2000)
+
+	love.keyboard.justpressed = {}
 end
 
 function love.update(deltaTime)
@@ -38,10 +40,4 @@ function love.draw()
 		lever:draw()
 		player:draw()
 	end)
-end
-
-function love.keypressed(key, scancode, isrepeat)
-	if key == "escape" then
-		love.event.quit()
-	end
 end
