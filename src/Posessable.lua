@@ -7,6 +7,7 @@ function Possessable:new(x, y)
 	self.image = love.graphics.newImage("img/lever.png")
 	self.width = self.image:getWidth()
 	self.height = self.image:getHeight()
+	self.posessed = false
 end
 
 function Possessable:update()

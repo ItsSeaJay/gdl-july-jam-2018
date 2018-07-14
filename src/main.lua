@@ -3,14 +3,16 @@ require("Player")
 require("Posessable")
 
 function love.load()
-	player = Player(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
+	posessables = {}
+	posessables[1] = Possessable(64, 64)
+	player = Player(
+		love.graphics.getWidth() / 2, -- X
+		love.graphics.getHeight() / 2, -- Y
+		posessables
+	)
 	tile = love.graphics.newImage("img/tile.png")
-	lever = Possessable(64, 64)
 	gamera = require("gamera")
 	camera = gamera.new(0, 0, 2000, 2000)
-
-	love.test = "test"
-	print(love.test)
 end
 
 function love.update(deltaTime)

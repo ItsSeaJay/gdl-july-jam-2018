@@ -1,8 +1,10 @@
 Object = require("classic")
 Player = Object:extend()
 
-function Player:new(x, y)
-	self.image = love.graphics.newImage("img/ghost.png")
+function Player:new(x, y, posessables)
+	self.posessables
+	self.images = {}
+	self.images.idle = love.graphics.newImage("img/ghost.png")
 	self.x = x
 	self.y = y
 	self.speed = 128
@@ -39,8 +41,9 @@ function Player:new(x, y)
 		-- Apply the velocity to the self's position
 		self.x = self.x + self.velocity.x * deltaTime
 		self.y = self.y + self.velocity.y * deltaTime
-
-		if love.keyboard.isDown("q") then self.state = self.states.test end
+	end
+	self.states.posessing = function ()
+		-- TODO: Make it so that pushing the space bar makes you normal again
 	end
 	self.states.test = function(self, deltaTime)
 		if love.keyboard.isDown("e") then self.state = self.states.normal end

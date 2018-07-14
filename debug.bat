@@ -1,3 +1,3 @@
 @echo off
 
-love src
+lovec src
