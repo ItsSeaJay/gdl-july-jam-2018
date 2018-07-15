@@ -1,4 +1,5 @@
 - Platformer Art Deluxe (Pixel Redux) by Kenney Vleugels (www.kenney.nl)
 - gamera by kikito
 - classic by rxi
-- m5x7 by Daniel Linssen 
+- m5x7 by Daniel Linssen
+- .arkano for the change in concept

@@ -10,7 +10,8 @@ function love.load()
 		love.graphics.getHeight() / 2 -- Y
 	)
 	gamera = require("gamera")
-	camera = gamera.new(0, 0, 2000, 2000)
+	camera = gamera.new(0, 0, 1260, 600)
+	background = love.graphics.newImage("img/background.png")
 end
 
 function love.update(deltaTime)
@@ -25,6 +26,9 @@ function love.draw()
 	-- Everything in this function is drawn relative to the camera
 	camera:draw(function (l, t, w, h)
 
+		love.graphics.setColor(255, 255, 255, 1)
+		love.graphics.draw(background, 0, 0)
+		love.graphics.setColor(255, 255, 255, 0.8)
 		player:draw()
 	end)
 end
