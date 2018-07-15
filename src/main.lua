@@ -26,9 +26,8 @@ function love.draw()
 	-- Everything in this function is drawn relative to the camera
 	camera:draw(function (l, t, w, h)
 
-		love.graphics.setColor(255, 255, 255, 1)
+		love.graphics.setColor(1, 1, 1, 1)
 		love.graphics.draw(background, 0, 0)
-		love.graphics.setColor(255, 255, 255, 0.8)
 		player:draw()
 	end)
 end
