@@ -28,7 +28,10 @@ end
 
 function Furniture:attack()
 	self.health = math.max(self.health - 1, 0)
-	love.audio.play(self.hitSound)
+	
+	if self.health > 0 then
+		love.audio.play(self.hitSound)
+	end
 end
 
 function Furniture:getPosition()

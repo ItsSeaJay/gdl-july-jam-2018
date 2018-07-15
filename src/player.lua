@@ -33,6 +33,14 @@ function Player:new(x, y)
 		"img/smashedSofa.png", -- Smashed image
 		3 -- Health
 	)
+	-- Cupboard
+	self.furniture[2] = Furniture(
+		579, -- X
+		309, -- Y
+		"img/normalCupboard.png", -- Normal image
+		"img/smashedCupboard.png", -- Smashed image
+		3 -- Health
+	)
 end
 
 -- Game loop
@@ -133,6 +141,26 @@ function Player:animate(deltaTime, up, down, left, right)
 	end
 end
 
+function Player:mouseCollidingWithFurniture(item)
+	local mouseX, mouseY = love.mouse.getPosition()
+	local camX, camY = cam:getPosition()
+
+	-- Measure from the top left
+	camX = camX - (love.graphics.getWidth() / 2)
+	camY = camY - (love.graphics.getHeight() / 2)
+	local position = item:getPosition()
+	local scale = item:getScale()
+
+	if (mouseX + camX) > (position.x) and
+	   (mouseX + camX) < (position.x + scale.width) and
+	   (mouseY + camY) > (position.y) and
+	   (mouseY + camY) < (position.y + scale.height) then
+		return true
+	end
+
+	return false
+end
+
 function Player:draw()
 	local wave = math.sin(love.timer.getTime()) * self.waveHeight
 
@@ -153,24 +181,4 @@ function Player:draw()
 	for key, bubble in pairs(self.bubbles) do
 		bubble:draw()
 	end
-end
-
-function Player:mouseCollidingWithFurniture(item)
-	local mouseX, mouseY = love.mouse.getPosition()
-	local camX, camY = cam:getPosition()
-
-	-- Measure from the top left
-	camX = camX - (love.graphics.getWidth() / 2)
-	camY = camY - (love.graphics.getHeight() / 2)
-	local position = item:getPosition()
-	local scale = item:getScale()
-
-	if (mouseX + camX) > (position.x) and
-	   (mouseX + camX) < (position.x + scale.width) and
-	   (mouseY + camY) > (position.y) and
-	   (mouseY + camY) < (position.y + scale.height) then
-		return true
-	end
-
-	return false
 end
