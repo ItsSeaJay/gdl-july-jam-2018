@@ -9,22 +9,21 @@ function love.load()
 		love.graphics.getWidth() / 2, -- X
 		love.graphics.getHeight() / 2 -- Y
 	)
-	gamera = require("gamera")
-	camera = gamera.new(0, 0, 1260, 600)
+	cam = require("cam")
 	background = love.graphics.newImage("img/background.png")
 end
 
 function love.update(deltaTime)
 	player:update(deltaTime)
-	camera:setPosition(player.x, player.y)
+	cam:setPosition(player.x, player.y)
 end
 
 function love.draw()
 	-- NOTE: Graphics in LÖVE are sorted front to back
 	love.graphics.clear()
 
-	-- Everything in this function is drawn relative to the camera
-	camera:draw(function (l, t, w, h)
+	-- Everything in this function is drawn relative to the cam
+	cam:draw(function (l, t, w, h)
 
 		love.graphics.setColor(1, 1, 1, 1)
 		love.graphics.draw(background, 0, 0)

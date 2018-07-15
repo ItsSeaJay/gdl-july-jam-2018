@@ -1,5 +1,6 @@
 require("TextBubble")
 require("Furniture")
+cam = require("cam")
 justpressed = require("justpressed")
 Object = require("classic")
 Player = Object:extend()
@@ -23,13 +24,14 @@ function Player:new(x, y)
 	self.state = "angry"
 	self.openingTimer = 0
 	self.furniture = {}
+	-- Sofa
 	self.furniture[1] = Furniture(
-		1260,
-		600,
+		825,
+		372,
 		"img/normalSofa.png",
 		"img/smashedSofa.png",
 		3 -- Health
-	) -- Sofa
+	)
 end
 
 -- Game loop
@@ -51,6 +53,19 @@ function Player:update(deltaTime)
 
 		self:move(deltaTime, up, down, left, right)
 		self:animate(deltaTime, up, down, left, right)
+
+		for i, _ in ipairs(self.furniture) do
+			self.furniture[i]:update()
+
+			local mouseX, mouseY = love.mouse.getPosition()
+			local camX, camY = cam:getPosition()
+			local position = self.furniture[i]:getPosition()
+			local scale = self.furniture[i]:getScale()
+
+			if (mouseX + cam:getPosition().x) > position.x then
+				-- attack!
+			end
+		end
 	elseif self.state == "ending" then
 		-- Sit still whilst the ending plays
 	end
@@ -63,6 +78,11 @@ function Player:update(deltaTime)
 		if bubble:getDestroyed() == true then
 			table.remove(self.bubbles, key)
 		end
+	end
+
+	-- Furniture
+	for i, _ in ipairs(self.furniture) do
+		self.furniture[i]:update()
 	end
 
 	-- Reset justpressed
@@ -113,6 +133,10 @@ end
 function Player:draw()
 	local wave = math.sin(love.timer.getTime()) * self.waveHeight
 
+	for i, _ in ipairs(self.furniture) do
+		self.furniture[i]:draw()
+	end
+
 	if self.state ~= "angry" then
 		love.graphics.setColor(1, 1, 1, 0.8)
 	else
@@ -121,6 +145,7 @@ function Player:draw()
 	end
 
 	love.graphics.draw(self.image, self.x, self.y + wave)
+	love.graphics.setColor(1, 1, 1, 1)
 
 	for key, bubble in pairs(self.bubbles) do
 		bubble:draw()

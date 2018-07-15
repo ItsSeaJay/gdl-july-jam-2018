@@ -9,6 +9,9 @@ function Furniture:new(x, y, normalImage, smashedImage, maxHealth)
 	self.image = self.normalImage
 	self.health	= maxHealth
 	self.smashed = false
+	self.hitSound = love.audio.newSource("sfx/smash.wav", "static")
+	self.width = self.image:getWidth()
+	self.height = self.image:getHeight()
 end
 
 function Furniture:update(deltaTime)
@@ -25,8 +28,25 @@ end
 
 function Furniture:attack()
 	self.health = math.max(self.health - 1, 0)
+	love.audio.play(self.hitSound)
+end
+
+function Furniture:getPosition()
+	local position = {}
+	position.x = self.x
+	position.y = self.y
+
+	return position
+end
+
+function Furniture:getScale()
+	local scale = {}
+	scale.width = self.width
+	scale.height = self.height
+
+	return scale
 end
 
 function Furniture:draw()
-	love.graphics.draw(self.x, self.y, self.image)
+	love.graphics.draw(self.image, self.x, self.y)
 end
