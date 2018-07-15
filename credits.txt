@@ -1,0 +1,25 @@
+~ The End ~
+
+Created by:
+Callum John (@ItsSeaJay)
+in 72 hours
+for
+GDL July Jam 2018
+"Freaky Friday"
+
+Music:
+Kevin MacLeod
+
+Sound Effects:
+BFXR
+Mike Koenig
+
+Font:
+m5x7 by Daniel Linssen
+
+Libraries:
+gamera by rxi
+classic by rxi
+
+Special Thanks:
+.arkano

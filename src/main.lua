@@ -11,13 +11,27 @@ function love.load()
 	)
 	cam = require("cam")
 	background = love.graphics.newImage("img/background.png")
-	scene = "house"
+	scene = "house" -- 'house' is the gameplay bit
+
+	credits = {}
+	credits.file = io.open("credits.txt", "rb")
+	credits.content = credits.file:read("*all")
+	credits.speed = 64
+	credits.x = 0
+	credits.y = love.graphics.getHeight()
+	credits.file:close()
 end
 
 function love.update(deltaTime)
 	if scene == "house" then
 		player:update(deltaTime)
 		cam:setPosition(player.x, player.y)
+	elseif scene == "credits" then
+		credits.y = credits.y - credits.speed * deltaTime
+
+		if credits.y < -love.graphics.getHeight() then
+			love.event.quit()
+		end
 	end
 end
 
@@ -34,6 +48,12 @@ function love.draw()
 			player:draw()
 		end)
 	elseif scene == "credits" then
-		love.graphics.print("The End")
+		love.graphics.printf(
+			credits.content,
+			credits.x,
+			credits.y,
+			love.graphics.getWidth(),
+			"center"
+		)
 	end
 end

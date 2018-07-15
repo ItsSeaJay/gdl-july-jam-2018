@@ -3,5 +3,5 @@
 - classic by rxi
 - m5x7 by Daniel Linssen
 - .arkano for suggesting the change in concept
-- Kevin McLeod - 'Exhilarate' (www.incompetech.com)
+- Kevin MacLeod - 'Exhilarate' (www.incompetech.com)
 - soundbible.com (Mike Koenig) - 'Door Bell'
