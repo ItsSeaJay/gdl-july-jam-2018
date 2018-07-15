@@ -1,4 +1,5 @@
 require("justpressed")
+require("TextBubble")
 
 Object = require("classic")
 Player = Object:extend()
@@ -18,6 +19,7 @@ function Player:new(x, y)
 	self.velocity.x = 0
 	self.velocity.y = 0
 	self.waveHeight = 16
+	self.bubbles = {}
 end
 
 -- Game loop
