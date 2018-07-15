@@ -1,8 +1,7 @@
-require("justpressed")
 require("TextBubble")
-
 Object = require("classic")
 Player = Object:extend()
+justpressed = require("justpressed")
 
 function Player:new(x, y)
 	self.images = {}
@@ -25,6 +24,8 @@ end
 -- Game loop
 function Player:update(deltaTime)
 	-- Input
+	justpressedUpdate(deltaTime)
+
 	local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
 	local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
 	local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
@@ -64,6 +65,11 @@ function Player:update(deltaTime)
 		self.image = self.images.right
 	else
 		self.image = self.images.normal
+	end
+
+	-- Text Bubbles
+	for key, bubble in pairs(self.bubbles) do
+		bubble:update()
 	end
 end
 

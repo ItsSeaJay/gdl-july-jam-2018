@@ -1,6 +1,6 @@
 justpressed = {}
 
-function love.update(dt)
+function justpressedUpdate(deltaTime)
     if justpressed["space"] then
         print("aaaaay")
     end
