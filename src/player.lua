@@ -62,14 +62,6 @@ function Player:update(deltaTime)
 		-- Play the opening
 		self.openingTimer = self.openingTimer + playbackSpeed * deltaTime
 
-		if love.keyboard.isDown("space") then
-			playbackSpeed = 2
-			self.speed = 256
-		else
-			playbackSpeed = 1
-			self.speed = 128
-		end
-
 		-- This is based on a timer in a rigid manner
 		if self.openingTimer > 0 and self.openingTimer < 2 then
 			-- Move up
@@ -270,6 +262,10 @@ function Player:draw()
 	else
 		-- Glow red
 		love.graphics.setColor(1, 0.5, 0.5, 0.8)
+		-- Indicate what to smash
+		love.graphics.draw(self.indicator, 888, 345 + wave)
+		love.graphics.draw(self.indicator, 587, 286 + wave)
+		love.graphics.draw(self.indicator, 183, 356 + wave)
 	end
 
 	love.graphics.draw(self.image, self.x, self.y + wave)
