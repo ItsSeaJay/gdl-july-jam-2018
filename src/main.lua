@@ -6,8 +6,8 @@ function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
 	player = Player(
-		love.graphics.getWidth() / 2, -- X
-		love.graphics.getHeight() / 2 -- Y
+		570, -- X
+		632 -- Y
 	)
 	cam = require("cam")
 	background = love.graphics.newImage("img/background.png")

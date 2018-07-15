@@ -22,7 +22,7 @@ function Player:new(x, y)
 	self.velocity.y = 0
 	self.waveHeight = 16
 	self.bubbles = {}
-	self.state = "angry"
+	self.state = "opening"
 	self.openingTimer = 0
 	self.furniture = {}
 	-- Sofa
@@ -49,23 +49,43 @@ function Player:new(x, y)
 		"img/smashedBed.png", -- Smashed image
 		2 -- Health
 	)
+	self.angryMusic = love.audio.newSource("bgm/exhilarate.mp3", "stream")
 end
 
 -- Game loop
 function Player:update(deltaTime)
-	local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
-	local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
-	local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
-	local right = love.keyboard.isDown("d") or love.keyboard.isDown("right")
-
 	if self.state == "opening" then
 		-- Play the opening
-		self.opening = self.opening + deltaTime
+		self.openingTimer = self.openingTimer + deltaTime
+
+		-- This is based on a timer in a rigid manner
+		if self.openingTimer > 0 and self.openingTimer < 2 then
+			-- Move up
+			up = true
+		elseif self.openingTimer > 2 and self.openingTimer < 3 then
+			up = false
+		elseif self.openingTimer > 4.5 and self.openingTimer < 6 then
+			right = true
+		elseif self.openingTimer > 3 and self.openingTimer < 3.5 then
+			right = false
+			left = true
+		elseif self.openingTimer > 6.5 and self.openingTimer < 6.6 then
+			table.insert(self.bubbles, TextBubble("Moo", 505, 486))
+		else
+			up, down, left, right = false
+		end
 
 		self:move(deltaTime, up, down, left, right)
 		self:animate(deltaTime, up, down, left, right)
 	elseif self.state == "angry" then
 		-- Float around angrily
+		-- Give the player control
+		local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
+		local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
+		local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
+		local right = love.keyboard.isDown("d") or love.keyboard.isDown("right")
+
+		-- Move faster
 		self.speed = 256
 
 		self:move(deltaTime, up, down, left, right)
@@ -133,6 +153,9 @@ function Player:move(deltaTime, up, down, left, right)
 	-- Apply the velocity to the player's position
 	self.x = self.x + self.velocity.x * deltaTime
 	self.y = self.y + self.velocity.y * deltaTime
+	-- Clamp the position in the world
+	self.x = math.min(math.max(self.x, 0), 1260 - (self.image:getWidth() / 2))
+	self.y = math.min(math.max(self.y, 0), 632 - (self.image:getHeight() / 2))
 end
 
 function Player:animate(deltaTime, up, down, left, right)
