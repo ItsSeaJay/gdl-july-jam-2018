@@ -50,13 +50,26 @@ function Player:new(x, y)
 		2 -- Health
 	)
 	self.angryMusic = love.audio.newSource("bgm/exhilarate.mp3", "stream")
+	self.insults = {
+		"How could anyone do this?"
+	}
 end
 
 -- Game loop
 function Player:update(deltaTime)
 	if self.state == "opening" then
+		local playbackSpeed = 1
+
 		-- Play the opening
-		self.openingTimer = self.openingTimer + deltaTime
+		self.openingTimer = self.openingTimer + playbackSpeed * deltaTime
+
+		if love.keyboard.isDown("space") then
+			playbackSpeed = 2
+			self.speed = 256
+		else
+			playbackSpeed = 1
+			self.speed = 128
+		end
 
 		-- This is based on a timer in a rigid manner
 		if self.openingTimer > 0 and self.openingTimer < 2 then
@@ -73,14 +86,53 @@ function Player:update(deltaTime)
 			right = false
 			left = false
 		elseif self.openingTimer > 6 and self.openingTimer < 6.1 then
-			table.insert(self.bubbles, TextBubble("Wait...", 513, 347))
+			table.insert(self.bubbles, TextBubble("Wait...", 487, 315))
 		elseif self.openingTimer > 6.1 and self.openingTimer < 6.5 then
 			right = false
 			left = false
 		elseif self.openingTimer > 6.5 and self.openingTimer < 8 then
 			left = true
+		elseif self.openingTimer > 8 and self.openingTimer < 8.5 then
+			left = false
+		elseif self.openingTimer > 8.5 and self.openingTimer < 8.6 then
+			table.insert(self.bubbles, TextBubble("Double bed?", 162, 342))
+		elseif self.openingTimer > 8.6 and self.openingTimer < 9 then
+			left = false
+		elseif self.openingTimer > 9 and self.openingTimer < 13 then
+			right = true
+		elseif self.openingTimer > 13 and self.openingTimer < 13.5 then
+			right = false
+		elseif self.openingTimer > 13.5 and self.openingTimer < 13.6 then
+			table.insert(self.bubbles, TextBubble("Leather sofa?", 843, 290))
+		elseif self.openingTimer > 18 and self.openingTimer < 18.1 then
+			table.insert(self.bubbles, TextBubble("Someone built a house on my grave!", 843, 321))
+		elseif self.openingTimer > 27 and self.openingTimer < 27.1 then
+			table.insert(self.bubbles, TextBubble("How...", 843, 290))
+		elseif self.openingTimer > 28 and self.openingTimer < 28.1 then
+			table.insert(self.bubbles, TextBubble("inconsiderate...", 843, 321))
+		elseif self.openingTimer > 32.5 and self.openingTimer < 32.6 then
+			table.insert(self.bubbles, TextBubble("It's OK.", 843, 321))
+		elseif self.openingTimer > 33.5 and self.openingTimer < 33.6 then
+			table.insert(self.bubbles, TextBubble("I can work this out.", 843, 290))
+		elseif self.openingTimer > 36.5 and self.openingTimer < 36.6 then
+			table.insert(self.bubbles, TextBubble("I'll just have a nice,\nquiet chat with the owner!", 810, 321))
+		elseif self.openingTimer > 40.5 and self.openingTimer < 40.6 then
+			table.insert(self.bubbles, TextBubble("Everything will be fine,\nso long as I remain c...", 830, 424))
+		elseif self.openingTimer > 45.7 and self.openingTimer < 45.8 then
+			cam:setScale(3)
+			self.angryMusic:play()
+			table.insert(self.bubbles, TextBubble("CAAAAAAAAAAALM!!", 810, player.y - 16))
+		elseif self.openingTimer > 46.7 and self.openingTimer < 46.8 then
+			cam:setScale(1)
+			self.state = "angry"
 		else
 			up, down, left, right = false
+		end
+
+		-- Add drama to the end of the cutscene
+		if self.openingTimer > 32.5 and self.openingTimer < 43.8 then
+			local zoomSpeed = 0.02
+			cam:setScale(cam:getScale() + zoomSpeed * deltaTime)
 		end
 
 		self:move(deltaTime, up, down, left, right)
@@ -92,6 +144,8 @@ function Player:update(deltaTime)
 		local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
 		local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
 		local right = love.keyboard.isDown("d") or love.keyboard.isDown("right")
+		
+		local numberDestroyed = 0
 
 		-- Move faster
 		self.speed = 256
@@ -120,11 +174,6 @@ function Player:update(deltaTime)
 		if bubble:getDestroyed() == true then
 			table.remove(self.bubbles, key)
 		end
-	end
-
-	-- Furniture
-	for i, _ in ipairs(self.furniture) do
-		self.furniture[i]:update()
 	end
 
 	-- Reset keyjustpressed

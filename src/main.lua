@@ -11,6 +11,7 @@ function love.load()
 	)
 	cam = require("cam")
 	background = love.graphics.newImage("img/background.png")
+	scene = "game"
 end
 
 function love.update(deltaTime)
