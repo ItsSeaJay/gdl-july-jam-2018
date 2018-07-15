@@ -1,7 +1,7 @@
 require("TextBubble")
+justpressed = require("justpressed")
 Object = require("classic")
 Player = Object:extend()
-justpressed = require("justpressed")
 
 function Player:new(x, y)
 	self.images = {}
@@ -24,13 +24,10 @@ end
 -- Game loop
 function Player:update(deltaTime)
 	-- Input
-	justpressedUpdate(deltaTime)
-
 	local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
 	local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
 	local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
 	local right = love.keyboard.isDown("d") or love.keyboard.isDown("right")
-
 	-- Movement
 	-- Vertical
 	if up then
@@ -68,8 +65,23 @@ function Player:update(deltaTime)
 	end
 
 	-- Text Bubbles
-	for key, bubble in pairs(self.bubbles) do
-		bubble:update()
+	if justpressed["space"] then
+		local bubble = TextBubble("Hello, World!", player.x, player.y)
+		table.insert(self.bubbles, bubble)
+	end
+
+	for key, bubble in ipairs(self.bubbles) do
+		bubble:update(deltaTime)
+
+		-- Remove destroyed bubbles
+		if bubble:getDestroyed() == true then
+			table.remove(self.bubbles, key)
+		end
+	end
+
+	-- Reset justpressed
+	for i, _ in pairs(justpressed) do
+		justpressed[i] = false
 	end
 end
 
@@ -77,4 +89,8 @@ function Player:draw()
 	local wave = math.sin(love.timer.getTime()) * self.waveHeight
 
 	love.graphics.draw(self.image, self.x, self.y + wave)
+
+	for key, bubble in pairs(self.bubbles) do
+		bubble:draw()
+	end
 end
