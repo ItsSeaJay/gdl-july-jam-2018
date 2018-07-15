@@ -18,8 +18,8 @@ Font:
 m5x7 by Daniel Linssen
 
 Libraries:
-gamera by rxi
-classic by rxi
+'gamera' by kikito
+'classic' by rxi
 
 Special Thanks:
 .arkano

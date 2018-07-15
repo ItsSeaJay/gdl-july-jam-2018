@@ -29,7 +29,7 @@ function love.update(deltaTime)
 	elseif scene == "credits" then
 		credits.y = credits.y - credits.speed * deltaTime
 
-		if credits.y < -love.graphics.getHeight() then
+		if credits.y < -love.graphics.getHeight() - 256 then
 			love.event.quit()
 		end
 	end

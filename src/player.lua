@@ -22,7 +22,7 @@ function Player:new(x, y)
 	self.velocity.y = 0
 	self.waveHeight = 16
 	self.bubbles = {}
-	self.state = "angry" -- set to 'angry' to skip the opening cutscene
+	self.state = "opening" -- set to 'angry' to skip the opening cutscene
 	self.openingTimer = 0
 	self.endingTimer = 0
 	self.furniture = {}
