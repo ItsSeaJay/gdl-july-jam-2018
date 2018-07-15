@@ -19,15 +19,42 @@ function Player:new(x, y)
 	self.velocity.y = 0
 	self.waveHeight = 16
 	self.bubbles = {}
+	self.state = "opening"
 end
 
 -- Game loop
 function Player:update(deltaTime)
-	-- Input
+	if self.state == "opening" then
+		-- Play the opening and float
+		self:move(deltaTime)
+	elseif self.state == "angry" then
+		-- Float around angrily
+	elseif self.state == "ending" then
+		-- Sit still whilst the ending plays
+	end
+
+	-- Text Bubbles
+	for key, bubble in ipairs(self.bubbles) do
+		bubble:update(deltaTime)
+
+		-- Remove destroyed bubbles
+		if bubble:getDestroyed() == true then
+			table.remove(self.bubbles, key)
+		end
+	end
+
+	-- Reset justpressed
+	for i, _ in pairs(justpressed) do
+		justpressed[i] = false
+	end
+end
+
+function Player:move(deltaTime)
 	local up = love.keyboard.isDown("w") or love.keyboard.isDown("up")
 	local down = love.keyboard.isDown("s") or love.keyboard.isDown("down")
 	local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
 	local right = love.keyboard.isDown("d") or love.keyboard.isDown("right")
+
 	-- Movement
 	-- Vertical
 	if up then
@@ -62,26 +89,6 @@ function Player:update(deltaTime)
 		self.image = self.images.right
 	else
 		self.image = self.images.normal
-	end
-
-	-- Text Bubbles
-	if justpressed["space"] then
-		local bubble = TextBubble("Hello, World!", player.x, player.y)
-		table.insert(self.bubbles, bubble)
-	end
-
-	for key, bubble in ipairs(self.bubbles) do
-		bubble:update(deltaTime)
-
-		-- Remove destroyed bubbles
-		if bubble:getDestroyed() == true then
-			table.remove(self.bubbles, key)
-		end
-	end
-
-	-- Reset justpressed
-	for i, _ in pairs(justpressed) do
-		justpressed[i] = false
 	end
 end
 
