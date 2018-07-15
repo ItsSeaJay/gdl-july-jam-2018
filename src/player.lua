@@ -1,7 +1,8 @@
 require("TextBubble")
 require("Furniture")
 cam = require("cam")
-justpressed = require("justpressed")
+keyjustpressed = require("keyjustpressed")
+mousejustpressed = require("mousejustpressed")
 Object = require("classic")
 Player = Object:extend()
 
@@ -26,10 +27,10 @@ function Player:new(x, y)
 	self.furniture = {}
 	-- Sofa
 	self.furniture[1] = Furniture(
-		825,
-		372,
-		"img/normalSofa.png",
-		"img/smashedSofa.png",
+		825, -- X
+		372, -- Y
+		"img/normalSofa.png", -- Normal image
+		"img/smashedSofa.png", -- Smashed image
 		3 -- Health
 	)
 end
@@ -55,22 +56,7 @@ function Player:update(deltaTime)
 		self:animate(deltaTime, up, down, left, right)
 
 		for i, _ in ipairs(self.furniture) do
-			self.furniture[i]:update()
-
-			local mouseX, mouseY = love.mouse.getPosition()
-			local camX, camY = cam:getPosition()
-			-- Measure from the top left
-			camX = camX - (love.graphics.getWidth() / 2)
-			camY = camY - (love.graphics.getHeight() / 2)
-			local position = self.furniture[i]:getPosition()
-			local scale = self.furniture[i]:getScale()
-
-			if (mouseX + camX) > (position.x) and
-			   (mouseX + camX) < (position.x + scale.width) and
-			   (mouseY + camY) > (position.y) and
-			   (mouseY + camY) < (position.y + scale.height) then
-				print("Attack! Attack!")
-			end
+			self.furniture[i]:update()			
 		end
 	elseif self.state == "ending" then
 		-- Sit still whilst the ending plays
@@ -91,9 +77,9 @@ function Player:update(deltaTime)
 		self.furniture[i]:update()
 	end
 
-	-- Reset justpressed
-	for i, _ in pairs(justpressed) do
-		justpressed[i] = false
+	-- Reset keyjustpressed
+	for i, _ in pairs(keyjustpressed) do
+		keyjustpressed[i] = false
 	end
 end
 
@@ -156,4 +142,32 @@ function Player:draw()
 	for key, bubble in pairs(self.bubbles) do
 		bubble:draw()
 	end
+end
+
+function love.mousepressed(x, y, button, istouch)
+	if self.state == "angry" then
+		for i, _ in ipairs(self.furniture) do
+			self:mouseCollidingWithFurniture(self.furniture[i])
+		end
+	end
+end
+
+function Player:mouseCollidingWithFurniture(item)
+	local mouseX, mouseY = love.mouse.getPosition()
+	local camX, camY = cam:getPosition()
+
+	-- Measure from the top left
+	camX = camX - (love.graphics.getWidth() / 2)
+	camY = camY - (love.graphics.getHeight() / 2)
+	local position = item:getPosition()
+	local scale = item:getScale()
+
+	if (mouseX + camX) > (position.x) and
+	   (mouseX + camX) < (position.x + scale.width) and
+	   (mouseY + camY) > (position.y) and
+	   (mouseY + camY) < (position.y + scale.height) then
+		return true
+	end
+
+	return false
 end
