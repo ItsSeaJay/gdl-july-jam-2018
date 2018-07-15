@@ -22,7 +22,7 @@ function Player:new(x, y)
 	self.velocity.y = 0
 	self.waveHeight = 16
 	self.bubbles = {}
-	self.state = "opening"
+	self.state = "angry" -- set to 'angry' to skip the opening cutscene
 	self.openingTimer = 0
 	self.endingTimer = 0
 	self.furniture = {}
@@ -51,16 +51,16 @@ function Player:new(x, y)
 		2 -- Health
 	)
 	self.angryMusic = love.audio.newSource("bgm/exhilarate.mp3", "stream")
+	self.endMusic = love.audio.newSource("bgm/feelinGood.mp3", "stream")
 	self.indicator = love.graphics.newImage("img/indicator.png")
+	self.dingDong = love.audio.newSource("sfx/dingDong.wav", "static")
 end
 
 -- Game loop
 function Player:update(deltaTime)
 	if self.state == "opening" then
-		local playbackSpeed = 1
-
 		-- Play the opening
-		self.openingTimer = self.openingTimer + playbackSpeed * deltaTime
+		self.openingTimer = self.openingTimer + 1 * deltaTime
 
 		-- This is based on a timer in a rigid manner
 		if self.openingTimer > 0 and self.openingTimer < 2 then
@@ -160,11 +160,20 @@ function Player:update(deltaTime)
 
 		if numberOfFurnitureSmashed == 3 then
 			self.angryMusic:stop()
+			self.dingDong:play()
 			self.state = "ending"
 		end
 	elseif self.state == "ending" then
 		-- Sit still whilst the ending plays
-		self.endingTimer = self.endingTimer + playbackSpeed * deltaTime
+		self.endingTimer = self.endingTimer + 1 * deltaTime
+
+		if self.endingTimer > 2 and self.endingTimer < 2.1 then
+			table.insert(self.bubbles, TextBubble("Oh for--", 810, player.y - 16))
+		elseif self.endingTimer > 2.2 then
+			-- Show the credits
+			scene = "credits"
+			self.endMusic:play()
+		end
 	end
 
 	-- Text Bubbles

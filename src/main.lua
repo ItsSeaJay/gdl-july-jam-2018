@@ -11,23 +11,29 @@ function love.load()
 	)
 	cam = require("cam")
 	background = love.graphics.newImage("img/background.png")
-	scene = "game"
+	scene = "house"
 end
 
 function love.update(deltaTime)
-	player:update(deltaTime)
-	cam:setPosition(player.x, player.y)
+	if scene == "house" then
+		player:update(deltaTime)
+		cam:setPosition(player.x, player.y)
+	end
 end
 
 function love.draw()
 	-- NOTE: Graphics in LÖVE are sorted front to back
 	love.graphics.clear()
 
-	-- Everything in this function is drawn relative to the cam
-	cam:draw(function (l, t, w, h)
+	if scene == "house" then
+		-- Everything in this function is drawn relative to the cam
+		cam:draw(function (l, t, w, h)
 
-		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.draw(background, 0, 0)
-		player:draw()
-	end)
+			love.graphics.setColor(1, 1, 1, 1)
+			love.graphics.draw(background, 0, 0)
+			player:draw()
+		end)
+	elseif scene == "credits" then
+		love.graphics.print("The End")
+	end
 end

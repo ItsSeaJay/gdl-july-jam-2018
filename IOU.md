@@ -2,4 +2,6 @@
 - gamera by kikito
 - classic by rxi
 - m5x7 by Daniel Linssen
-- .arkano for the change in concept
+- .arkano for suggesting the change in concept
+- Kevin McLeod - 'Exhilarate' (www.incompetech.com)
+- soundbible.com (Mike Koenig) - 'Door Bell'
