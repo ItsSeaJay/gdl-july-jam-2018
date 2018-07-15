@@ -64,13 +64,21 @@ function Player:update(deltaTime)
 			up = true
 		elseif self.openingTimer > 2 and self.openingTimer < 3 then
 			up = false
-		elseif self.openingTimer > 4.5 and self.openingTimer < 6 then
+		elseif self.openingTimer > 4.25 and self.openingTimer < 4.5 then
 			right = true
-		elseif self.openingTimer > 3 and self.openingTimer < 3.5 then
+		elseif self.openingTimer > 4.5 and self.openingTimer < 5 then
 			right = false
 			left = true
-		elseif self.openingTimer > 6.5 and self.openingTimer < 6.6 then
-			table.insert(self.bubbles, TextBubble("Moo", 505, 486))
+		elseif self.openingTimer > 5 and self.openingTimer < 6 then
+			right = false
+			left = false
+		elseif self.openingTimer > 6 and self.openingTimer < 6.1 then
+			table.insert(self.bubbles, TextBubble("Wait...", 513, 347))
+		elseif self.openingTimer > 6.1 and self.openingTimer < 6.5 then
+			right = false
+			left = false
+		elseif self.openingTimer > 6.5 and self.openingTimer < 8 then
+			left = true
 		else
 			up, down, left, right = false
 		end
