@@ -59,11 +59,17 @@ function Player:update(deltaTime)
 
 			local mouseX, mouseY = love.mouse.getPosition()
 			local camX, camY = cam:getPosition()
+			-- Measure from the top left
+			camX = camX - (love.graphics.getWidth() / 2)
+			camY = camY - (love.graphics.getHeight() / 2)
 			local position = self.furniture[i]:getPosition()
 			local scale = self.furniture[i]:getScale()
 
-			if (mouseX + cam:getPosition().x) > position.x then
-				-- attack!
+			if (mouseX + camX) > (position.x) and
+			   (mouseX + camX) < (position.x + scale.width) and
+			   (mouseY + camY) > (position.y) and
+			   (mouseY + camY) < (position.y + scale.height) then
+				print("Attack! Attack!")
 			end
 		end
 	elseif self.state == "ending" then
