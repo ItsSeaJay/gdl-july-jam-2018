@@ -39,7 +39,15 @@ function Player:new(x, y)
 		309, -- Y
 		"img/normalCupboard.png", -- Normal image
 		"img/smashedCupboard.png", -- Smashed image
-		3 -- Health
+		2 -- Health
+	)
+	-- Bed
+	self.furniture[3] = Furniture(
+		108, -- X
+		366, -- Y
+		"img/normalBed.png", -- Normal image
+		"img/smashedBed.png", -- Smashed image
+		2 -- Health
 	)
 end
 
