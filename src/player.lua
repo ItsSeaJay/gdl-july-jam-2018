@@ -24,6 +24,7 @@ function Player:new(x, y)
 	self.bubbles = {}
 	self.state = "opening"
 	self.openingTimer = 0
+	self.endingTimer = 0
 	self.furniture = {}
 	-- Sofa
 	self.furniture[1] = Furniture(
@@ -50,9 +51,7 @@ function Player:new(x, y)
 		2 -- Health
 	)
 	self.angryMusic = love.audio.newSource("bgm/exhilarate.mp3", "stream")
-	self.insults = {
-		"How could anyone do this?"
-	}
+	self.indicator = love.graphics.newImage("img/indicator.png")
 end
 
 -- Game loop
@@ -145,7 +144,7 @@ function Player:update(deltaTime)
 		local left = love.keyboard.isDown("a") or love.keyboard.isDown("left")
 		local right = love.keyboard.isDown("d") or love.keyboard.isDown("right")
 		
-		local numberDestroyed = 0
+		local numberOfFurnitureSmashed = 0
 
 		-- Move faster
 		self.speed = 256
@@ -156,14 +155,24 @@ function Player:update(deltaTime)
 		for i, _ in ipairs(self.furniture) do
 			self.furniture[i]:update()
 
+			if self.furniture[i]:getSmashed() then
+				numberOfFurnitureSmashed = numberOfFurnitureSmashed + 1
+			end
+
 			if self:mouseCollidingWithFurniture(self.furniture[i]) then
 				if mousejustpressed[1] then
 					self.furniture[i]:attack()
 				end
 			end	
 		end
+
+		if numberOfFurnitureSmashed == 3 then
+			self.angryMusic:stop()
+			self.state = "ending"
+		end
 	elseif self.state == "ending" then
 		-- Sit still whilst the ending plays
+		self.endingTimer = self.endingTimer + playbackSpeed * deltaTime
 	end
 
 	-- Text Bubbles

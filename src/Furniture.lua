@@ -42,6 +42,10 @@ function Furniture:getPosition()
 	return position
 end
 
+function Furniture:getSmashed()
+	return self.smashed
+end
+
 function Furniture:getScale()
 	local scale = {}
 	scale.width = self.width
