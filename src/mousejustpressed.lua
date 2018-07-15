@@ -1,4 +1,4 @@
-justpressed = {}
+mousejustpressed = {}
 
 -- function justpressedUpdate()
 --     for i, _ in pairs(justpressed) do
@@ -6,8 +6,8 @@ justpressed = {}
 --     end
 -- end
 
-function love.keypressed(key)
-	justpressed[key] = true
+function love.mousepressed(x, y, button, istouch)
+	mousejustpressed[button] = true
 end
 
-return justpressed
+return mousejustpressed

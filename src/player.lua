@@ -56,7 +56,13 @@ function Player:update(deltaTime)
 		self:animate(deltaTime, up, down, left, right)
 
 		for i, _ in ipairs(self.furniture) do
-			self.furniture[i]:update()			
+			self.furniture[i]:update()
+
+			if self:mouseCollidingWithFurniture(self.furniture[i]) then
+				if mousejustpressed[1] then
+					self.furniture[i]:attack()
+				end
+			end	
 		end
 	elseif self.state == "ending" then
 		-- Sit still whilst the ending plays
@@ -80,6 +86,11 @@ function Player:update(deltaTime)
 	-- Reset keyjustpressed
 	for i, _ in pairs(keyjustpressed) do
 		keyjustpressed[i] = false
+	end
+
+	-- Reset mousejustpressed
+	for i, _ in pairs(mousejustpressed) do
+		mousejustpressed[i] = false
 	end
 end
 
@@ -141,14 +152,6 @@ function Player:draw()
 
 	for key, bubble in pairs(self.bubbles) do
 		bubble:draw()
-	end
-end
-
-function love.mousepressed(x, y, button, istouch)
-	if self.state == "angry" then
-		for i, _ in ipairs(self.furniture) do
-			self:mouseCollidingWithFurniture(self.furniture[i])
-		end
 	end
 end
 
